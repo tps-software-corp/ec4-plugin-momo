@@ -3,7 +3,7 @@
 {% set menus = ['store', 'plugin', 'plugin_list'] %}
 
 {% block title %}EC4MOMO{% endblock %}
-{% block sub_title %}プラグイン一覧{% endblock %}
+{% block sub_title %}{% endblock %}
 
 {% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
 
@@ -20,14 +20,60 @@
             <div class="c-contentsArea__primaryCol">
                 <div class="c-primaryCol">
                     <div class="card rounded border-0 mb-4">
-                        <div class="card-header"><span>設定</span></div>
+                        <div class="card-header"><span>{{ 'momo.common.setting' | trans }}</span></div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-3"><span>名前</span><span
-                                            class="badge badge-primary ml-1">必須</span></div>
+                                <div class="col-3">
+                                    <span>{{ 'momo.admin.labels.env' | trans }}</span>
+                                </div>
                                 <div class="col mb-2">
-                                    {{ form_widget(form.name) }}
-                                    {{ form_errors(form.name) }}
+                                    {{ form_widget(form.env) }}
+                                    {{ form_errors(form.env) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>{{ 'momo.admin.labels.partner_code' | trans }}</span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.partner_code) }}
+                                    {{ form_errors(form.partner_code) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>{{ 'momo.admin.labels.store_id' | trans }}</span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.store_id) }}
+                                    {{ form_errors(form.store_id) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>{{ 'momo.admin.labels.accessKey' | trans }}</span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.accessKey) }}
+                                    {{ form_errors(form.accessKey) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>{{ 'momo.admin.labels.secretKey' | trans }}</span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.secretKey) }}
+                                    {{ form_errors(form.secretKey) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>{{ 'momo.admin.labels.apiEndpoint' | trans }}</span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.apiEndpoint) }}
+                                    {{ form_errors(form.apiEndpoint) }}
                                 </div>
                             </div>
                         </div>
@@ -43,7 +89,7 @@
                             <a class="c-baseLink"
                                href="{{ url('admin_store_plugin') }}">
                                 <i class="fa fa-backward" aria-hidden="true"></i>
-                                <span>プラグイン一覧</span>
+                                <span>{{ 'common.back' | trans}}</span>
                             </a>
                         </div>
                     </div>
@@ -51,7 +97,7 @@
                         <div class="row align-items-center justify-content-end">
                             <div class="col-auto">
                                 <button class="btn btn-ec-conversion px-5"
-                                        type="submit">登録</button>
+                                        type="submit">{{ 'admin.common.save' | trans }}</button>
                             </div>
                         </div>
                     </div>

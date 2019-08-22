@@ -1,0 +1,36 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-dialog" role="document">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Quét mã QR để thanh toán với MOMO</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="qrcode"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('EC4MOMO/assets/js/qrcode.min.js', 'plugin') }}"></script>
+<script>
+$(function() {
+    function showQRCode() {
+        $('#exampleModal').modal('show');
+    }
+    $('#shopping-form [type="submit"]').click(function(eve) {
+        eve.preventDefault();
+        showQRCode();
+        // setTimeout(function() {
+        //     $('#shopping-form').submit();
+        // }, 2000);
+    })
+    new QRCode($("#qrcode")[0], "{{ QRCode }}");
+})
+</script>

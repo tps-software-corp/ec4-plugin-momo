@@ -1,0 +1,7 @@
+momo.common.setting: 'Cài đặt tài khoản MOMO'
+momo.admin.labels.env: 'Môi trường'
+momo.admin.labels.partner_code: 'Partner CODE'
+momo.admin.labels.store_id: 'Store ID'
+momo.admin.labels.accessKey: 'Access Key'
+momo.admin.labels.secretKey: 'Secret Key'
+momo.admin.labels.apiEndpoint: 'API Endpoint'
