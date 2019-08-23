@@ -131,7 +131,7 @@ class MomoPaymentService
         $signature = hash_hmac('sha256', "storeSlug=$storeSlug&amount=$amount&billId=$billId", $secret);
 
         $transaction = $this->MomoTransationRepo->findOneBy(['Order' => $Order]);
-        // if (!$transaction) {
+        if (!$transaction) {
             $transaction = new MomoTransaction();
             $transaction->setEnv($domain);
             $transaction->setPartnerCode($this->MomoConfig->getPartnerCode());
@@ -144,8 +144,7 @@ class MomoPaymentService
             $transaction->setOrder($Order);
             $this->MomoTransationRepo->save($transaction);
             $this->EntityManager->flush();
-            dump($transaction); die;
-        // }
+        }
         $url = "$domain/pay/store/$storeSlug?a=$amount&b=$billId&s=$signature";
         return $url;
     }

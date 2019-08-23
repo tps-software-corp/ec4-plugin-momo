@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MomoTransaction
 {
+    const STATUS_SUCCESS = 'success';
+
     /**
      * @var int
      *

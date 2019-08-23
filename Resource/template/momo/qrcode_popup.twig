@@ -1,18 +1,24 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-content">
-        <div class="modal-dialog" role="document">
+{% set VALID_PERIOD = 30 %}
+<style>
+    #qrcode img {
+        margin: 5px auto;
+    }
+</style>
+<div class="modal fade" id="momoModal" tabindex="-1" role="dialog" aria-labelledby="momoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Quét mã QR để thanh toán với MOMO</h5>
+            <h5 class="modal-title" id="momoModalLabel">MOMO Thanh toán QR Code</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
             <div id="qrcode"></div>
+            <div id="note" class="text-center">Mã thanh toán của bạn sẽ hết hạn sau: <span id="valid-period">{{VALID_PERIOD}}</span> giây</div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'common.close' | trans }}</button>
         </div>
         </div>
     </div>
@@ -21,16 +27,38 @@
 <script src="{{ asset('EC4MOMO/assets/js/qrcode.min.js', 'plugin') }}"></script>
 <script>
 $(function() {
+    var interval = null;
+    var VALID_PERIOD = {{ VALID_PERIOD }};
+    new QRCode($("#qrcode")[0], "{{ QRCode }}");
     function showQRCode() {
-        $('#exampleModal').modal('show');
+        $('#momoModal').modal('show');
+        $('#momoModal').on('hidden.bs.modal', function() {
+            clearInterval(interval);
+        });
     }
+    $('#shopping-form [type="submit"]').off('click');
     $('#shopping-form [type="submit"]').click(function(eve) {
         eve.preventDefault();
         showQRCode();
-        // setTimeout(function() {
-        //     $('#shopping-form').submit();
-        // }, 2000);
+        var time = 0;
+        interval = setInterval(function() {
+            $.ajax({
+                url: "{{ url('ec4_momo_check_order_status', {'orderId': Order.id}) }}",
+                async: false,
+                success: function(res) {
+                    time++;
+                    if (res.result == 1) {
+                        $('#shopping-form').submit();
+                    } else {
+                        if (time >= VALID_PERIOD) {
+                            clearInterval(interval)
+                            window.location.href = "{{ url('shopping_error') }}"
+                        }
+                    }
+                    $('#valid-period').html(VALID_PERIOD - time)
+                }
+            });
+        }, 1000)
     })
-    new QRCode($("#qrcode")[0], "{{ QRCode }}");
 })
 </script>
